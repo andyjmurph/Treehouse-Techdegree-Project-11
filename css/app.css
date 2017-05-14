@@ -4,7 +4,6 @@
  * 2. Prevent iOS and IE text size adjust after device orientation change,
  *    without disabling user zoom.
  */
-@import url("https://fonts.googleapis.com/css?family=Arvo:400i,700|Ubuntu:300,500");
 html {
   font-family: sans-serif;
   /* 1 */
@@ -7353,6 +7352,30 @@ GLOBAL STYLES
 body {
   background: #ebeced; }
 
+.icon-avatar1 {
+  background-image: url(sprite.png);
+  background-position: 0 0;
+  width: 100px;
+  height: 100px; }
+
+.icon-avatar2, .icon-avatar3, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-image: url(sprite.png);
+  background-position: -100px 0;
+  width: 100px;
+  height: 100px; }
+
+.icon-avatar3, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-position: 0 -100px; }
+
+.icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-position: -100px -100px; }
+
+.icon-avatar6, .icon-avatar7 {
+  background-position: -200px 0; }
+
+.icon-avatar7 {
+  background-position: -200px -100px; }
+
 /* =======================
 HEADER STYLES
 ========================*/
@@ -7553,7 +7576,7 @@ footer .columns {
 footer .social {
   text-align: right; }
 
-footer .social img {
+footer .social svg {
   height: 35px;
   width: 35px; }
 

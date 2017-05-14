@@ -1,13 +1,18 @@
 "use strict";
 
-var gulp = require ('gulp'),
-    concat = require('gulp-concat'),
-    minify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
-    sass   = require('gulp-sass'),
-    maps   = require('gulp-sourcemaps'),
-    clean  = require('gulp-clean-css'),
-    del    = require('del');
+var gulp     = require ('gulp'),
+    concat   = require('gulp-concat'),
+    minify   = require('gulp-uglify'),
+    rename   = require('gulp-rename'),
+    sass     = require('gulp-sass'),
+    maps     = require('gulp-sourcemaps'),
+    clean    = require('gulp-clean-css'),
+    del      = require('del'),
+    sprite   = require('gulp.spritesmith'),
+    buffer   = require('vinyl-buffer'),
+    csso     = require('gulp-csso'),
+    imagemin = require('gulp-imagemin'),
+    merge    = require('merge-stream');
 
 // Concatenate JS files
 
@@ -37,7 +42,7 @@ gulp.task('minifyJS', ['concatJS'], function() {
 
 // Compile Sass
 
-gulp.task('compileSass', function() {
+gulp.task('compileSass', ['sprite'], function() {
   return gulp.src('scss/app.scss')
   .pipe(maps.init())
   .pipe(sass())
@@ -60,6 +65,26 @@ gulp.task('watch', function() {
   gulp.watch('js/scripts.js', ['minifyJS']);
 })
 
+// Create avatars spritesheet
+gulp.task('sprite', function () {
+  var spriteData = gulp.src('img/avatars/*.jpg')
+  .pipe(sprite({
+    imgName: 'sprite.png',
+    cssName: 'sprite.css'
+  }));
+  var imgStream = spriteData.img
+    .pipe(buffer())
+    .pipe(imagemin())
+    .pipe(gulp.dest('img/avatars'));
+
+  var cssStream = spriteData.css
+    .pipe(csso())
+    .pipe(rename('_sprite.scss'))
+    .pipe(gulp.dest('scss/layout'));
+
+  return merge(imgStream, cssStream);
+});
+
 // Serve task
 
 gulp.task('serve', ['watch']);
@@ -73,7 +98,9 @@ gulp.task('clean', function() {
 gulp.task('build', ['minifyJS', 'minifyCss'], function() {
   return gulp.src([
     'css/app.min.css',
+    'css/app.css.map',
     'js/app.min.js',
+    'js/app.js.map',
     'index.html',
     'img/**',
   ], {base: './'})

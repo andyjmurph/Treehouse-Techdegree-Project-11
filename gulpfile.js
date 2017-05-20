@@ -12,11 +12,12 @@ var gulp     = require ('gulp'),
     buffer   = require('vinyl-buffer'),
     csso     = require('gulp-csso'),
     imagemin = require('gulp-imagemin'),
-    merge    = require('merge-stream');
+    merge    = require('merge-stream'),
+    babel    = require('gulp-babel');
 
 // Concatenate JS files
 
-gulp.task('concatJS', function() {
+gulp.task('concatJS', ['convertJS'], function() {
   return gulp.src([
     'js/jquery.js',
     'js/foundation.js',
@@ -30,6 +31,15 @@ gulp.task('concatJS', function() {
   .pipe(maps.write('./'))
   .pipe(gulp.dest('js'));
 })
+
+// Use babel to conver to ES5
+gulp.task('convertJS', function() {
+    return gulp.src('js/scripts.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest('js'));
+});
 
 // Minify JS files
 
@@ -70,12 +80,12 @@ gulp.task('sprite', function () {
   var spriteData = gulp.src('img/avatars/*.jpg')
   .pipe(sprite({
     imgName: 'sprite.png',
-    cssName: 'sprite.css'
+    cssName: 'sprite.css',
+    imgPath: '../img/avatars/sprite.png'
   }));
   var imgStream = spriteData.img
     .pipe(buffer())
-    .pipe(imagemin())
-    .pipe(gulp.dest('img/avatars'));
+    .pipe(gulp.dest('img/avatars/'));
 
   var cssStream = spriteData.css
     .pipe(csso())
@@ -85,17 +95,24 @@ gulp.task('sprite', function () {
   return merge(imgStream, cssStream);
 });
 
+// Compress images
+gulp.task('compressImgs', ['sprite'], () =>
+    gulp.src('src/img/**/*.*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('dist/img'))
+);
+
 // Serve task
 
 gulp.task('serve', ['watch']);
 
 // Clean task
 gulp.task('clean', function() {
-  del(['dist', 'css', 'js/app*.js**']);
+  del(['dist', 'css', 'js/app*.js**', 'img/avatars/sprite.png']);
 })
 
 // Build task
-gulp.task('build', ['minifyJS', 'minifyCss'], function() {
+gulp.task('build', ['minifyJS', 'minifyCss', 'compressImgs'], function() {
   return gulp.src([
     'css/app.min.css',
     'css/app.css.map',

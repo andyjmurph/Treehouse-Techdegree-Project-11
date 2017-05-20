@@ -7353,28 +7353,31 @@ body {
   background: #ebeced; }
 
 .icon-avatar1 {
-  background-image: url(sprite.png);
+  background-image: url(../img/avatars/sprite.png);
   background-position: 0 0;
-  width: 100px;
-  height: 100px; }
+  width: 50px;
+  height: 50px; }
 
-.icon-avatar2, .icon-avatar3, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
-  background-image: url(sprite.png);
-  background-position: -100px 0;
-  width: 100px;
-  height: 100px; }
+.icon-avatar2, .icon-avatar3, .icon-avatar4, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-image: url(../img/avatars/sprite.png);
+  background-position: -50px 0;
+  width: 50px;
+  height: 50px; }
 
-.icon-avatar3, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
-  background-position: 0 -100px; }
+.icon-avatar3, .icon-avatar4, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-position: 0 -50px; }
+
+.icon-avatar4, .icon-avatar5, .icon-avatar6, .icon-avatar7 {
+  background-position: -50px -50px; }
 
 .icon-avatar5, .icon-avatar6, .icon-avatar7 {
-  background-position: -100px -100px; }
+  background-position: -100px 0; }
 
 .icon-avatar6, .icon-avatar7 {
-  background-position: -200px 0; }
+  background-position: -100px -50px; }
 
 .icon-avatar7 {
-  background-position: -200px -100px; }
+  background-position: 0 -100px; }
 
 /* =======================
 HEADER STYLES
@@ -7533,12 +7536,19 @@ GRID STYLES
   display: block;
   font-weight: 500; }
 
-.image-grid .image .info .avatar {
+.image-grid .image .info .icon-avatar {
   border-radius: 50%;
   float: left;
   height: 50px;
   margin-right: 1rem;
   width: 50px; }
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1em;
+  float: left; }
 
 /* =======================
 HEADER STYLES
@@ -7549,7 +7559,7 @@ HEADER STYLES
 .reveal-modal .info .attribution {
   color: #495560;
   font-family: "Ubuntu";
-  line-height: 75px; }
+  line-height: 50px; }
 
 .reveal-modal .info .attribution b {
   font-weight: 700; }
@@ -7557,9 +7567,9 @@ HEADER STYLES
 .reveal-modal .info .avatar {
   border-radius: 50%;
   float: left;
-  height: 75px;
+  height: 50px;
   margin-right: 1rem;
-  width: 75px; }
+  width: 50px; }
 
 /* =======================
 FOOTER STYLES
